@@ -10,5 +10,16 @@
     </h1>
     <br>
     <p> This website is currently under construction. Please contact staff for more information.</p>
+    <br>
+    <small id="version"></small>
+    <br>
+    <small id="release"></small>
 </body>
+<script>
+    window.onload = function() {
+        document.getElementById("version").innerText = "Version 0.0.1"
+        const date = new Date()
+        document.getElementById("release").innerHTML = "<b>Release Date:</b> June 30th. Current Time:" + date.getTime()
+    }
+</script>
 </html>
