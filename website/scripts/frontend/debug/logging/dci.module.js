@@ -1,0 +1,1 @@
+console.log("Welcome to the Schaumburg Aid Debug Console Interface (DCI) \n You are currently viewing the debug console, a console that is primarily used by developers. \n Important thing to remember, DO NOT PASTE anything into the console, neither should you type anything \n in order to ensure account safety. \n Thank you, \n Team Schaumburg Aid.")
