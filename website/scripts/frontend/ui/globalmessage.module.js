@@ -30,7 +30,6 @@ function removeMessage(id) {
 }
 
 function pushMessage(username, text, options = {}) {
-    if (!username) throw new Error('Missing sender username');
     if (!text) throw new Error('Missing message text');
 
     const id = nextId++;
@@ -42,24 +41,26 @@ function pushMessage(username, text, options = {}) {
     const el = document.createElement('div');
     el.className = 'gm-banner';
 
-    const userEl = document.createElement('span');
-    userEl.className = 'gm-username';
-    userEl.textContent = username;
-    if (options.usernameColor) {
-        userEl.style.color = options.usernameColor;
-    }
+    if (username) {
+        const userEl = document.createElement('span');
+        userEl.className = 'gm-username';
+        userEl.textContent = username;
+        if (options.usernameColor) {
+            userEl.style.color = options.usernameColor;
+        }
+        el.appendChild(userEl);
 
-    const sepEl = document.createElement('span');
-    sepEl.className = 'gm-sep';
-    sepEl.textContent = ':';
+        const sepEl = document.createElement('span');
+        sepEl.className = 'gm-sep';
+        sepEl.textContent = ':';
+        el.appendChild(sepEl);
+    }
 
     const textEl = document.createElement('span');
     textEl.className = `gm-text gm-type-${type}`;
     textEl.textContent = text;
-
-    el.appendChild(userEl);
-    el.appendChild(sepEl);
     el.appendChild(textEl);
+
     root.appendChild(el);
 
     requestAnimationFrame(() => el.classList.add('gm-visible'));
@@ -67,7 +68,7 @@ function pushMessage(username, text, options = {}) {
     const timer = setTimeout(() => removeMessage(id), duration);
     active.set(id, { el, timer });
 
-    const entry = { id, username, text, type };
+    const entry = { id, username: username || null, text, type };
     if (typeof listenerHook === 'function') {
         listenerHook(entry);
     }
@@ -75,8 +76,11 @@ function pushMessage(username, text, options = {}) {
     return entry;
 }
 
-function notify(username, text, options) {
-    return pushMessage(username, text, options);
+function notify(usernameOrText, textOrOptions, maybeOptions) {
+    if (typeof textOrOptions === 'string') {
+        return pushMessage(usernameOrText, textOrOptions, maybeOptions);
+    }
+    return pushMessage(null, usernameOrText, textOrOptions);
 }
 
 function clearAll() {

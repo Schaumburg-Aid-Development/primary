@@ -4,13 +4,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Stylers -->
 <link rel="stylesheet" href="styles/theme/primary.css">
-<title>Schaumburg Aid</title>
+<link rel="stylesheet" href="styles/components/globalmessage.css">
+<title>Kinlo</title>
 <style>
 body {
 min-height: 100vh;
 display: flex;
+flex-direction: column;
 align-items: center;
 justify-content: center;
+gap: 56px;
 }
 .notice {
 text-align: center;
@@ -52,11 +55,21 @@ color: var(--text-dim);
 text-transform: uppercase;
 letter-spacing: 0.06em;
 }
+.enter-site[aria-disabled="true"] {
+color: var(--text-dim);
+border-color: var(--border);
+cursor: not-allowed;
+opacity: 0.6;
+}
+.enter-site[aria-disabled="true"]:hover {
+color: var(--text-dim);
+border-color: var(--border);
+}
 </style>
 </head>
 <body>
 <!-- 
-    Hello User! You are currently viewing the HTML of Kinlo (formarly Schaumburg Aid)!
+    Hello User! You are currently viewing the HTML of Kinlo!
     Unfortunately, this website is not open source, so trying to take our code is a no go.
     I, the developer, kindly ask you to not use the console unless you are trying to bug find.
     Thank you!
@@ -64,10 +77,9 @@ letter-spacing: 0.06em;
     Adhyayan Hazra
     -->
 <div class="notice">
-<span class="eyebrow">Kinlo (Formerly Schaumburg Aid)</span>
+<span class="eyebrow"><h2>Kinlo</h2></span>
 <h1>Under Construction</h1>
 <p>Hello User! Currently the site is under construction. Please come back on the time displayed below for the site to be available to the public.</p>
-<a href="pages/legal/tos.html">View Terms of Service</a>
 <div class="countdown" id="countdown">
 <div class="unit">
 <span class="value" id="cd-days">--</span>
@@ -87,8 +99,10 @@ letter-spacing: 0.06em;
 </div>
 </div>
 </div>
+<button class="enter-site" id="enter-site" aria-disabled="true" onclick="notify('The website is currently not open.', { type: 'error' })">Enter Site</button>
+<script type="module" src="scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="scripts/frontend/ui/globalmessage-sync.module.js"></script>
 <script>
-    // super evil countdown muahahaha
 const releaseDate = new Date(2026, 5, 30, 0, 0, 0);
 
 function updateCountdown() {

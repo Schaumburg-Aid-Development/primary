@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="../../styles/theme/primary.css">
 <link rel="stylesheet" href="../../styles/theme/debug.css">
 <link rel="stylesheet" href="../../styles/components/globalmessage.css">
-<title>Schaumburg Aid</title>
+<title>Kinlo</title>
 </head>
 <body>
 <!-- 
@@ -20,12 +20,11 @@
 <div class="page">
 <header class="panel-header">
 <span class="eyebrow">Kinlo</span>
-<h1>Debug Operations
-</h1>
+<h1>Debug Panel</h1>
 <p>Welcome to the debug panel. This panel is a temporary subversion panel for managing the modulated functions.</p>
 <div class="warning-banner">
 <span class="warning-icon">!</span>
-<span> The following commands are extremely vital to service. Do not abuse them as they can lead to many issues.</span>
+<span>Restricted tooling. Actions here directly modify accounts, roles, and sessions. Use with caution.</span>
 </div>
 <button class="btn-ghost" onclick="accessDenied()">accessDenied()</button>
 </header>
@@ -137,7 +136,7 @@
 <input id="pm-username" type="text" placeholder="username">
 <input id="pm-text" type="text" placeholder="message">
 <input id="pm-type" type="text" placeholder="type (default/notification/error/success/debug/important)">
-<button onclick="pushMessage(document.getElementById('pm-username').value, document.getElementById('pm-text').value, { type: document.getElementById('pm-type').value || 'default' })">pushMessage()</button>
+<button onclick="broadcastMessage(document.getElementById('pm-username').value, document.getElementById('pm-text').value, { type: document.getElementById('pm-type').value || 'default' })">broadcastMessage()</button>
 </div>
 </div>
 <div class="field-group">
@@ -155,6 +154,7 @@
 <script type="module" src="../../scripts/frontend/debug/logging/dci.module.js"></script>
 <!-- UI Scripts -->
 <script type="module" src="../../scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="../../scripts/frontend/ui/globalmessage-sync.module.js"></script>
 <!-- Backend Scripts -->
 <!-- Ban Scripts -->
 <script type="module" src="../../scripts/backend/security/ban/ban.module.js"></script>

@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "public": "public",
+    "site": "schaumburgaid",
+    "public": "website",
     "ignore": [
       "firebase.json",
       "**/.*",
