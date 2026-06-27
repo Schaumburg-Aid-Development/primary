@@ -1,0 +1,114 @@
+.page {
+    max-width: 880px;
+    margin-inline: auto;
+}
+
+.panel-header {
+    margin-bottom: 48px;
+}
+
+.eyebrow {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+}
+
+.warning-banner {
+    display: flex;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-top: 20px;
+    color: var(--warn);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.warning-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--warn);
+    color: var(--warn);
+    font-weight: 700;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-header .btn-ghost {
+    margin-top: 20px;
+}
+
+.panel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.panel-card {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+}
+
+.field-group {
+    margin-bottom: 16px;
+}
+
+.field-group:last-child {
+    margin-bottom: 0;
+}
+
+.field-group-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.field-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-ghost {
+    color: var(--text-dim);
+}
+
+.btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+}
+
+.btn-danger {
+    color: var(--danger);
+}
+
+.btn-danger:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.btn-warn {
+    color: var(--warn);
+}
+
+.btn-warn:hover {
+    color: var(--warn);
+    border-color: var(--warn);
+}
+
+@media (max-width: 480px) {
+    .field-row input,
+    .field-row button {
+        flex: 1 1 100%;
+    }
+}

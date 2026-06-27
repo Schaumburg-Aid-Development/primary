@@ -1,0 +1,178 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../styles/theme/debug.css">
+<link rel="stylesheet" href="../../styles/components/globalmessage.css">
+<title>Schaumburg Aid</title>
+</head>
+<body>
+<!-- 
+    Hello User! You are currently viewing the HTML of Kinlo!
+    Unfortunately, this website is not open source, so trying to take our code is a no go.
+    I, the developer, kindly ask you to not use the console unless you are trying to bug find.
+    Thank you!
+    From,
+    Adhyayan Hazra
+    -->
+<div class="page">
+<header class="panel-header">
+<span class="eyebrow">Kinlo</span>
+<h1>Debug Operations
+</h1>
+<p>Welcome to the debug panel. This panel is a temporary subversion panel for managing the modulated functions.</p>
+<div class="warning-banner">
+<span class="warning-icon">!</span>
+<span> The following commands are extremely vital to service. Do not abuse them as they can lead to many issues.</span>
+</div>
+<button class="btn-ghost" onclick="accessDenied()">accessDenied()</button>
+</header>
+<main class="panel-grid">
+<section class="panel-card">
+<h2>Account actions</h2>
+<div class="field-group">
+<span class="field-group-label">Create account</span>
+<div class="field-row">
+<input id="ca-email" type="email" placeholder="email">
+<input id="ca-password" type="password" placeholder="password">
+<input id="ca-username" type="text" placeholder="username">
+<button onclick="createAccount(document.getElementById('ca-email').value, document.getElementById('ca-password').value, document.getElementById('ca-username').value)">createAccount()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Sign in</span>
+<div class="field-row">
+<input id="si-email" type="email" placeholder="email">
+<input id="si-password" type="password" placeholder="password">
+<button onclick="signIn(document.getElementById('si-email').value, document.getElementById('si-password').value)">signIn()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Current UID</span>
+<div class="field-row">
+<button onclick="UID()">UID()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Lookup account data</span>
+<div class="field-row">
+<input id="ad-identifier" type="text" placeholder="username or email">
+<button onclick="accountdata(document.getElementById('ad-identifier').value)">accountdata()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Disable account</span>
+<div class="field-row">
+<input id="dis-email" type="email" placeholder="email to disable">
+<button class="btn-danger" onclick="disableaccount(document.getElementById('dis-email').value)">disableaccount()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Delete account</span>
+<div class="field-row">
+<input id="del-email" type="email" placeholder="email to delete">
+<button class="btn-danger" onclick="deleteaccount(document.getElementById('del-email').value)">deleteaccount()</button>
+</div>
+</div>
+</section>
+<section class="panel-card">
+<h2>Role management</h2>
+<div class="field-group">
+<span class="field-group-label">Set role</span>
+<div class="field-row">
+<input id="sr-name" type="text" placeholder="role name (eg. moderator)">
+<input id="sr-userid" type="text" placeholder="user id">
+<button class="btn-warn" onclick="setrole(document.getElementById('sr-name').value, document.getElementById('sr-userid').value)">setrole()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Set access level</span>
+<div class="field-row">
+<input id="sl-level" type="number" placeholder="level number">
+<input id="sl-userid" type="text" placeholder="user id">
+<button class="btn-warn" onclick="setlevel(document.getElementById('sl-level').value, document.getElementById('sl-userid').value)">setlevel()</button>
+</div>
+</div>
+</section>
+<section class="panel-card">
+<h2>Session actions</h2>
+<div class="field-group">
+<span class="field-group-label">Sessions</span>
+<div class="field-row">
+<button onclick="createSessionForCurrentUser()">createSessionForCurrentUser()</button>
+<input id="cs-uid" type="text" placeholder="uid">
+<button onclick="createSession(document.getElementById('cs-uid').value)">createSession(uid)</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Session status</span>
+<div class="field-row">
+<button onclick="endSession()">endSession()</button>
+<button onclick="getSession()">getSession()</button>
+<button onclick="isAuthenticated()">isAuthenticated()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Custom action</span>
+<div class="field-row">
+<input id="action-name" type="text" placeholder="action name">
+<input id="action-payload" type="text" placeholder="payload (string)">
+<button onclick="performAction(document.getElementById('action-name').value, document.getElementById('action-payload').value)">performAction()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Action log</span>
+<div class="field-row">
+<button onclick="console.log(getActions())">getActions()</button>
+</div>
+</div>
+</section>
+<section class="panel-card">
+<h2>Messaging</h2>
+<div class="field-group">
+<span class="field-group-label">Push message</span>
+<div class="field-row">
+<input id="pm-username" type="text" placeholder="username">
+<input id="pm-text" type="text" placeholder="message">
+<input id="pm-type" type="text" placeholder="type (default/notification/error/success/debug/important)">
+<button onclick="pushMessage(document.getElementById('pm-username').value, document.getElementById('pm-text').value, { type: document.getElementById('pm-type').value || 'default' })">pushMessage()</button>
+</div>
+</div>
+<div class="field-group">
+<span class="field-group-label">Clear messages</span>
+<div class="field-row">
+<button class="btn-ghost" onclick="clearAll()">clearAll()</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body>
+<!-- Frontend Scripts -->
+<!-- Debug Scripts-->
+<script type="module" src="../../scripts/frontend/debug/logging/dci.module.js"></script>
+<!-- UI Scripts -->
+<script type="module" src="../../scripts/frontend/ui/globalmessage.module.js"></script>
+<!-- Backend Scripts -->
+<!-- Ban Scripts -->
+<script type="module" src="../../scripts/backend/security/ban/ban.module.js"></script>
+<!-- Security Scripts -->
+<script type="module" src="../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script type="module" src="../../scripts/backend/security/prevention/access/accessdenied.js"></script>
+<script type="module" src="../../scripts/backend/security/prevention/access/accessleveldenied.js"></script>
+<script type="module" src="../../scripts/backend/security/roles/roles.module.js"></script> <!-- note to self, this is for admin powers -->
+<!-- Account Scripts -->
+<script type="module" src="../../scripts/backend/security/account/account.module.js"></script>
+<script type="module" src="../../scripts/backend/security/account/storage/accountdata.module.js"></script>
+<script type="module" src="../../scripts/backend/security/account/management/management.module.js"></script>
+<script type="module" src="../../scripts/backend/security/account/creation/creation.module.js"></script>
+<!-- Prevent Scripts -->
+<script type="module" src="../../scripts/backend/security/prevention/prevention.module.js"></script>
+<!-- Data Scripts -->
+<script type="module" src="../../scripts/backend/requests/src/firebasesdk.js"></script>
+<script type="module" src="../../scripts/backend/requests/data/data.module.js"></script>
+<script type="module" src="../../scripts/backend/requests/global/global.module.js"></script>
+</html>
+<!-- code written by adhyayan hazra, don't steal pls-->

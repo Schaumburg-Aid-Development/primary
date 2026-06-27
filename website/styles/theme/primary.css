@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-group(root) {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root) {
+    animation: stack-settle-back 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+::view-transition-new(root) {
+    animation: stack-lay-down 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes stack-settle-back {
+    from {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.94) translateY(10px);
+        opacity: 0;
+    }
+}
+
+@keyframes stack-lay-down {
+    from {
+        transform: scale(0.96) translateY(28px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@font-face {
+    font-family: 'Brasika';
+    src: url('../fonts/brasika-display.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg: #0c0c0c;
+    --surface: #141414;
+    --border: #232323;
+    --text: #ededed;
+    --text-dim: #8a8a8a;
+    --accent: #5ec8f0;
+    --danger: #e8716f;
+    --warn: #e0b35e;
+    --radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+    padding: 56px 24px;
+}
+
+h1, h2 {
+    font-family: 'Brasika', Nunito, sans-serif;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+h3, h4 {
+    font-family: Nunito, sans-serif;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+h3 {
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+h4 {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+}
+
+p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 56ch;
+    margin: 8px 0 0;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+a:visited {
+    color: var(--accent);
+}
+
+input {
+    background-color: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    min-width: 140px;
+    flex: 1 1 140px;
+}
+
+input::placeholder {
+    color: var(--text-dim);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+button {
+    background-color: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 4px;
+}

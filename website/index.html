@@ -1,114 +1,119 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Stylers -->
-    <link rel="stylesheet" href="styles/theme/primary.css">
-    <title>Schaumburg Aid</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="styles/theme/primary.css">
+<title>Schaumburg Aid</title>
+<style>
+body {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.notice {
+text-align: center;
+max-width: 420px;
+}
+.notice .eyebrow {
+display: block;
+color: var(--text-dim);
+font-size: 0.75rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin-bottom: 10px;
+}
+.notice p {
+margin: 12px auto 0;
+}
+.countdown {
+display: flex;
+justify-content: center;
+gap: 18px;
+margin-top: 28px;
+}
+.countdown .unit {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+}
+.countdown .value {
+font-family: 'Brasika', Nunito, sans-serif;
+font-size: 1.8rem;
+color: var(--text);
+line-height: 1;
+}
+.countdown .label {
+font-size: 0.7rem;
+color: var(--text-dim);
+text-transform: uppercase;
+letter-spacing: 0.06em;
+}
+</style>
 </head>
 <body>
-    <!-- 
-    Hello User! You are currently viewing the HTML of Schaumburg Aid!
+<!-- 
+    Hello User! You are currently viewing the HTML of Kinlo (formarly Schaumburg Aid)!
     Unfortunately, this website is not open source, so trying to take our code is a no go.
     I, the developer, kindly ask you to not use the console unless you are trying to bug find.
     Thank you!
-
     From,
     Adhyayan Hazra
-
     -->
-    <h1>
-        Welcome to Schaumburg Aid!
-    </h1>
-    <br>
-    <p> This website is currently under construction. Please contact staff for more information. The options below are used for functions, you can use them in the F12 menu as well.</p>
-    <br>
-    <button onclick="accessDenied()">accessDenied()</button>
-    <div style="margin-top:24px">
-        <h3>Account actions</h3>
-        <div>
-            <input id="ca-email" type="email" placeholder="email">
-            <input id="ca-password" type="password" placeholder="password">
-            <input id="ca-username" type="text" placeholder="username">
-            <button onclick="createAccount(document.getElementById('ca-email').value, document.getElementById('ca-password').value, document.getElementById('ca-username').value)">createAccount()</button>
-        </div>
-        <div style="margin-top:8px">
-            <input id="si-email" type="email" placeholder="email">
-            <input id="si-password" type="password" placeholder="password">
-            <button onclick="signIn(document.getElementById('si-email').value, document.getElementById('si-password').value)">signIn()</button>
-        </div>
-        <div style="margin-top:8px">
-            <button onclick="UID()">UID()</button>
-        </div>
-        <div style="margin-top:8px">
-            <input id="ad-identifier" type="text" placeholder="username or email">
-            <button onclick="accountdata(document.getElementById('ad-identifier').value)">accountdata()</button>
-        </div>
-        <div style="margin-top:8px">
-            <input id="dis-email" type="email" placeholder="email to disable">
-            <button onclick="disableaccount(document.getElementById('dis-email').value)">disableaccount()</button>
-        </div>
-        <div style="margin-top:8px">
-            <input id="del-email" type="email" placeholder="email to delete">
-            <button onclick="deleteaccount(document.getElementById('del-email').value)">deleteaccount()</button>
-        </div>
-        <div style="margin-top:16px">
-            <h4>Role management</h4>
-            <div>
-                <input id="sr-name" type="text" placeholder="role name (eg. moderator)">
-                <input id="sr-userid" type="text" placeholder="user id">
-                <button onclick="setrole(document.getElementById('sr-name').value, document.getElementById('sr-userid').value)">setrole()</button>
-            </div>
-            <div style="margin-top:8px">
-                <input id="sl-level" type="number" placeholder="level number">
-                <input id="sl-userid" type="text" placeholder="user id">
-                <button onclick="setlevel(document.getElementById('sl-level').value, document.getElementById('sl-userid').value)">setlevel()</button>
-            </div>
-        </div>
-        <div style="margin-top:16px">
-            <h4>Session actions</h4>
-            <div>
-                <button onclick="createSessionForCurrentUser()">createSessionForCurrentUser()</button>
-                <input id="cs-uid" type="text" placeholder="uid">
-                <button onclick="createSession(document.getElementById('cs-uid').value)">createSession(uid)</button>
-            </div>
-            <div style="margin-top:8px">
-                <button onclick="endSession()">endSession()</button>
-                <button onclick="getSession()">getSession()</button>
-                <button onclick="isAuthenticated()">isAuthenticated()</button>
-            </div>
-            <div style="margin-top:8px">
-                <input id="action-name" type="text" placeholder="action name">
-                <input id="action-payload" type="text" placeholder="payload (string)">
-                <button onclick="performAction(document.getElementById('action-name').value, document.getElementById('action-payload').value)">performAction()</button>
-            </div>
-            <div style="margin-top:8px">
-                <button onclick="console.log(getActions())">getActions()</button>
-            </div>
-        </div>
-    </div>
+<div class="notice">
+<span class="eyebrow">Kinlo (Formerly Schaumburg Aid)</span>
+<h1>Under Construction</h1>
+<p>Hello User! Currently the site is under construction. Please come back on the time displayed below for the site to be available to the public.</p>
+<a href="pages/legal/tos.html">View Terms of Service</a>
+<div class="countdown" id="countdown">
+<div class="unit">
+<span class="value" id="cd-days">--</span>
+<span class="label">Days</span>
+</div>
+<div class="unit">
+<span class="value" id="cd-hours">--</span>
+<span class="label">Hours</span>
+</div>
+<div class="unit">
+<span class="value" id="cd-minutes">--</span>
+<span class="label">Minutes</span>
+</div>
+<div class="unit">
+<span class="value" id="cd-seconds">--</span>
+<span class="label">Seconds</span>
+</div>
+</div>
+</div>
+<script>
+    // super evil countdown muahahaha
+const releaseDate = new Date(2026, 5, 30, 0, 0, 0);
+
+function updateCountdown() {
+    const now = new Date();
+    const diff = releaseDate - now;
+
+    if (diff <= 0) {
+        document.getElementById('countdown').outerHTML = '<p>We are live. Thank you for your patience.</p>';
+        clearInterval(timer);
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+}
+
+updateCountdown();
+const timer = setInterval(updateCountdown, 1000);
+</script>
 </body>
-<!-- Frontend Scripts -->
-<!-- Debug Scripts-->
- <script type="module" src="scripts/frontend/debug/logging/dci.module.js"></script>
-<!-- Backend Scripts -->
-<!-- Ban Scripts -->
- <script type="module" src="scripts/backend/security/ban/ban.module.js"></script>
-<!-- Security Scripts -->
- <script type="module" src="scripts/backend/security/prevention/session/session.module.js"></script>
- <script type="module" src="scripts/backend/security/prevention/access/accessdenied.js"></script>
- <script type="module" src="scripts/backend/security/prevention/access/accessleveldenied.js"></script>
- <script type="module" src="scripts/backend/security/roles/roles.module.js"></script> <!-- note to self, this is for admin powers -->
-<!-- Account Scripts -->
- <script type="module" src="scripts/backend/security/account/account.module.js"></script>
- <script type="module" src="scripts/backend/security/account/storage/accountdata.module.js"></script>
- <script type="module" src="scripts/backend/security/account/management/management.module.js"></script>
- <script type="module" src="scripts/backend/security/account/creation/creation.module.js"></script>
-<!-- Prevent Scripts -->
- <script type="module" src="scripts/backend/security/prevention/prevention.module.js"></script>
- <!-- Data Scripts -->
- <script type="module" src="scripts/backend/requests/src/firebasesdk.js"></script>
- <script type="module" src="scripts/backend/requests/data/data.module.js"></script>
- <script type="module" src="scripts/backend/requests/global/global.module.js"></script>
 </html>
-<!-- code written by adhyayan hazra, don't steal pls-->

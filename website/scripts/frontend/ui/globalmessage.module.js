@@ -7,6 +7,8 @@ let containerEl = null;
 let listenerHook = null;
 let nextId = 0;
 
+const KNOWN_TYPES = ['default', 'notification', 'error', 'success', 'debug', 'important'];
+
 function ensureContainer() {
     if (containerEl) return containerEl;
     containerEl = document.createElement('div');
@@ -33,6 +35,8 @@ function pushMessage(username, text, options = {}) {
 
     const id = nextId++;
     const duration = options.duration ?? 5000;
+    const requestedType = (options.type || 'default').toLowerCase();
+    const type = KNOWN_TYPES.includes(requestedType) ? requestedType : 'default';
     const root = ensureContainer();
 
     const el = document.createElement('div');
@@ -50,7 +54,7 @@ function pushMessage(username, text, options = {}) {
     sepEl.textContent = ':';
 
     const textEl = document.createElement('span');
-    textEl.className = 'gm-text';
+    textEl.className = `gm-text gm-type-${type}`;
     textEl.textContent = text;
 
     el.appendChild(userEl);
@@ -63,7 +67,7 @@ function pushMessage(username, text, options = {}) {
     const timer = setTimeout(() => removeMessage(id), duration);
     active.set(id, { el, timer });
 
-    const entry = { id, username, text, type: options.type || 'info' };
+    const entry = { id, username, text, type };
     if (typeof listenerHook === 'function') {
         listenerHook(entry);
     }
