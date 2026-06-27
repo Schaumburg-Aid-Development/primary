@@ -8,6 +8,38 @@ let listenerHook = null;
 let nextId = 0;
 
 const KNOWN_TYPES = ['default', 'notification', 'error', 'success', 'debug', 'important'];
+const notificationSoundUrl = new URL('../sfx/notification.mp3', import.meta.url).href;
+const errorSoundUrl = new URL('../sfx/error.mp3', import.meta.url).href;
+const successSoundUrl = new URL('../sfx/success.mp3', import.meta.url).href;
+let notificationSound = null;
+let errorSound = null;
+let successSound = null;
+
+function getSoundElement(type) {
+    const soundUrl = type === 'error' ? errorSoundUrl : type === 'success' ? successSoundUrl : notificationSoundUrl;
+    const sound = type === 'error' ? errorSound : type === 'success' ? successSound : notificationSound;
+
+    if (sound) {
+        if (sound.src !== soundUrl) {
+            sound.src = soundUrl;
+        }
+        return sound;
+    }
+
+    const audio = new Audio(soundUrl);
+    audio.preload = 'auto';
+    audio.volume = 1;
+
+    if (type === 'error') {
+        errorSound = audio;
+    } else if (type === 'success') {
+        successSound = audio;
+    } else {
+        notificationSound = audio;
+    }
+
+    return audio;
+}
 
 function ensureContainer() {
     if (containerEl) return containerEl;
@@ -44,7 +76,7 @@ function pushMessage(username, text, options = {}) {
     if (username) {
         const userEl = document.createElement('span');
         userEl.className = 'gm-username';
-        userEl.textContent = username;
+        userEl.textContent = `[${username}]:`;
         if (options.usernameColor) {
             userEl.style.color = options.usernameColor;
         }
@@ -52,7 +84,7 @@ function pushMessage(username, text, options = {}) {
 
         const sepEl = document.createElement('span');
         sepEl.className = 'gm-sep';
-        sepEl.textContent = ':';
+        sepEl.textContent = null;
         el.appendChild(sepEl);
     }
 
@@ -72,6 +104,11 @@ function pushMessage(username, text, options = {}) {
     if (typeof listenerHook === 'function') {
         listenerHook(entry);
     }
+
+    const audio = getSoundElement(type);
+    audio.pause();
+    audio.currentTime = type === 'error' ? 0.5 : 0;
+    audio.play().catch(() => {});
 
     return entry;
 }

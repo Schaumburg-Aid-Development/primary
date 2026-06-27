@@ -105,6 +105,13 @@ border-color: var(--border);
 <script>
 const releaseDate = new Date(2026, 5, 30, 0, 0, 0);
 
+const chirpAudio = new Audio('scripts/frontend/sfx/Chirp.mp3');
+chirpAudio.loop = true;
+chirpAudio.volume = 0.35;
+window.addEventListener('load', () => {
+    chirpAudio.play().catch(() => {});
+});
+
 function updateCountdown() {
     const now = new Date();
     const diff = releaseDate - now;

@@ -22,6 +22,8 @@
 <span class="eyebrow">Kinlo</span>
 <h1>Debug Panel</h1>
 <p>Welcome to the debug panel. This panel is a temporary subversion panel for managing the modulated functions.</p>
+<br>
+<a href="../../index.html">Return Home</a>
 <div class="warning-banner">
 <span class="warning-icon">!</span>
 <span>Restricted tooling. Actions here directly modify accounts, roles, and sessions. Use with caution.</span>
@@ -148,6 +150,14 @@
 </section>
 </main>
 </div>
+<script>
+const chirpAudio = new Audio('../../scripts/frontend/sfx/Chirp.mp3');
+chirpAudio.loop = true;
+chirpAudio.volume = 0.35;
+window.addEventListener('load', () => {
+    chirpAudio.play().catch(() => {});
+});
+</script>
 </body>
 <!-- Frontend Scripts -->
 <!-- Debug Scripts-->
