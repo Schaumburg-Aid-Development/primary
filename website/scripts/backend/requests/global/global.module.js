@@ -1,93 +1,84 @@
-/* Imports */
-/* none required: pure frontend UI module */
+import { pushMessage, notify, clearAll, onMessage } from '../../../frontend/ui/globalmessage.module.js';
+import { broadcastMessage, attachListener } from '../../../frontend/ui/globalmessage-sync.module.js';
+import { createAccount, signIn, UID, accountdata, disableaccount, deleteaccount } from '../../security/account/account.module.js';
+import { setrole, setlevel } from '../../security/roles/roles.module.js';
+import { createSessionForCurrentUser, createSession, endSession, getSession, isAuthenticated, performAction, getActions } from '../../security/prevention/session/session.module.js';
+import { accessDenied } from '../../security/prevention/access/accessdenied.js';
+import { initOnboarding } from '../../../frontend/onboarding/onboarding.module.js';
 
-/* state */
-const active = new Map();
-let containerEl = null;
-let listenerHook = null;
-let nextId = 0;
+const primaryCss = new URL('../../../../styles/theme/primary.css', import.meta.url).href;
 
-function ensureContainer() {
-    if (containerEl) return containerEl;
-    containerEl = document.createElement('div');
-    containerEl.id = 'global-message-root';
-    containerEl.setAttribute('aria-live', 'polite');
-    document.body.appendChild(containerEl);
-    return containerEl;
+function loadPrimaryCss() {
+  if (typeof document === 'undefined') return null;
+  let link = document.querySelector(`link[href="${primaryCss}"]`);
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = primaryCss;
+    document.head.appendChild(link);
+  }
+  return link;
 }
 
-function removeMessage(id) {
-    const entry = active.get(id);
-    if (!entry) return;
+const globalApi = {
+  pushMessage,
+  notify,
+  clearAll,
+  onMessage,
+  broadcastMessage,
+  attachListener,
+  accessDenied,
+  createAccount,
+  signIn,
+  UID,
+  accountdata,
+  disableaccount,
+  deleteaccount,
+  setrole,
+  setlevel,
+  createSessionForCurrentUser,
+  createSession,
+  endSession,
+  getSession,
+  isAuthenticated,
+  performAction,
+  getActions,
+  onboarding: initOnboarding || null,
+  OnboardingModule: { initOnboarding },
+  primaryCss,
+  loadPrimaryCss
+};
 
-    clearTimeout(entry.timer);
-    entry.el.classList.remove('gm-visible');
-    active.delete(id);
+Object.assign(globalThis, globalApi);
+globalThis.primaryCss = primaryCss;
+globalThis.PrimaryCSS = primaryCss;
+globalThis.loadPrimaryCss = loadPrimaryCss;
+globalThis.GlobalMessageModule = globalApi;
+globalThis.GlobalMessages = globalApi;
 
-    setTimeout(() => entry.el.remove(), 240);
-}
+export {
+  pushMessage,
+  notify,
+  clearAll,
+  onMessage,
+  broadcastMessage,
+  attachListener,
+  accessDenied,
+  createAccount,
+  signIn,
+  UID,
+  accountdata,
+  disableaccount,
+  deleteaccount,
+  setrole,
+  setlevel,
+  createSessionForCurrentUser,
+  createSession,
+  endSession,
+  getSession,
+  isAuthenticated,
+  performAction,
+  getActions
+};
 
-function pushMessage(username, text, options = {}) {
-    if (!username) throw new Error('Missing sender username');
-    if (!text) throw new Error('Missing message text');
-
-    const id = nextId++;
-    const duration = options.duration ?? 5000;
-    const root = ensureContainer();
-
-    const el = document.createElement('div');
-    el.className = 'gm-banner';
-
-    const userEl = document.createElement('span');
-    userEl.className = 'gm-username';
-    userEl.textContent = username;
-    if (options.usernameColor) {
-        userEl.style.color = options.usernameColor;
-    }
-
-    const sepEl = document.createElement('span');
-    sepEl.className = 'gm-sep';
-    sepEl.textContent = ':';
-
-    const textEl = document.createElement('span');
-    textEl.className = 'gm-text';
-    textEl.textContent = text;
-
-    el.appendChild(userEl);
-    el.appendChild(sepEl);
-    el.appendChild(textEl);
-    root.appendChild(el);
-
-    requestAnimationFrame(() => el.classList.add('gm-visible'));
-
-    const timer = setTimeout(() => removeMessage(id), duration);
-    active.set(id, { el, timer });
-
-    const entry = { id, username, text, type: options.type || 'info' };
-    if (typeof listenerHook === 'function') {
-        listenerHook(entry);
-    }
-
-    return entry;
-}
-
-function notify(username, text, options) {
-    return pushMessage(username, text, options);
-}
-
-function clearAll() {
-    for (const id of [...active.keys()]) {
-        removeMessage(id);
-    }
-}
-
-function onMessage(callback) {
-    listenerHook = callback;
-}
-
-/* global */
-globalThis.pushMessage = pushMessage;
-globalThis.notify = notify;
-globalThis.clearAll = clearAll;
-
-export { pushMessage, notify, clearAll, onMessage };
+export default globalApi;

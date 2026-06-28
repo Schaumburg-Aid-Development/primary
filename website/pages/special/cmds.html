@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Stylers -->
 <link rel="stylesheet" href="../../styles/theme/primary.css">
-<link rel="stylesheet" href="../../styles/theme/debug.css">
+<link rel="stylesheet" href="../../styles/page/debug.css">
 <link rel="stylesheet" href="../../styles/components/globalmessage.css">
 <title>Kinlo</title>
 </head>
@@ -147,10 +147,17 @@
 <button class="btn-ghost" onclick="clearAll()">clearAll()</button>
 </div>
 </div>
+<div class="field-group">
+<span class="field-group-label">Onboarding</span>
+<div class="field-row">
+<a href="../user/personal/onboarding.html">Open onboarding</a>
+</div>
+</div>
 </section>
 </main>
 </div>
 <script>
+console.log("Playing CHIRP by C418.")
 const chirpAudio = new Audio('../../scripts/frontend/sfx/Chirp.mp3');
 chirpAudio.loop = true;
 chirpAudio.volume = 0.35;

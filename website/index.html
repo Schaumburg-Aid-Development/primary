@@ -3,6 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Stylers -->
+ <link rel="shortcut icon" href="styles/components/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="styles/theme/primary.css">
 <link rel="stylesheet" href="styles/components/globalmessage.css">
 <title>Kinlo</title>
@@ -99,18 +100,41 @@ border-color: var(--border);
 </div>
 </div>
 </div>
-<button class="enter-site" id="enter-site" aria-disabled="true" onclick="notify('The website is currently not open.', { type: 'error' })">Enter Site</button>
+<button class="enter-site" id="enter-site" aria-disabled="true" onclick="handleEnterSite()">Enter Site</button>
 <script type="module" src="scripts/frontend/ui/globalmessage.module.js"></script>
 <script type="module" src="scripts/frontend/ui/globalmessage-sync.module.js"></script>
 <script>
-const releaseDate = new Date(2026, 5, 30, 0, 0, 0);
-
+const releaseDate = new Date(2026, 5, 30, 17, 0, 0);
+const isLocalhost = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+const enterSiteButton = document.getElementById('enter-site');
 const chirpAudio = new Audio('scripts/frontend/sfx/Chirp.mp3');
 chirpAudio.loop = true;
 chirpAudio.volume = 0.35;
+
+function startChirp() {
+    if (chirpAudio.paused) {
+        chirpAudio.play().catch(() => {});
+    }
+}
+document.addEventListener('click', startChirp);
 window.addEventListener('load', () => {
-    chirpAudio.play().catch(() => {});
+    startChirp();
 });
+
+function handleEnterSite() {
+    if (!isLocalhost) {
+        notify('The website is currently not open.', { type: 'error' });
+        return;
+    }
+
+    window.location.href = 'pages/special/cmds.html';
+}
+
+if (isLocalhost) {
+    enterSiteButton.removeAttribute('aria-disabled');
+    enterSiteButton.style.cursor = 'pointer';
+    enterSiteButton.style.opacity = '1';
+}
 
 function updateCountdown() {
     const now = new Date();
