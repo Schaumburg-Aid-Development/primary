@@ -90,7 +90,7 @@
               <div><strong>Help needs</strong><span>${needs.length ? needs.join(', ') : 'No help needs shared yet'}</span></div>
             </div>
             <div class="step-actions">
-              <button type="button" class="primary-btn" data-finish-onboarding>Return home</button>
+              <button type="button" class="primary-btn" data-finish-onboarding>Let's Go!</button>
             </div>
           </section>
         `;

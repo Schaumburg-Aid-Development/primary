@@ -7,6 +7,7 @@ import { accessDenied } from '../../security/prevention/access/accessdenied.js';
 import { initOnboarding } from '../../../frontend/onboarding/onboarding.module.js';
 
 const primaryCss = new URL('../../../../styles/theme/primary.css', import.meta.url).href;
+const faviconUrl = new URL('../../../../styles/components/favicon.ico', import.meta.url).href;
 
 function loadPrimaryCss() {
   if (typeof document === 'undefined') return null;
@@ -16,6 +17,20 @@ function loadPrimaryCss() {
     link.rel = 'stylesheet';
     link.href = primaryCss;
     document.head.appendChild(link);
+  }
+  return link;
+}
+
+function loadFavicon() {
+  if (typeof document === 'undefined') return null;
+  let link = document.querySelector('link[rel="shortcut icon"], link[rel="icon"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'shortcut icon';
+    link.href = faviconUrl;
+    document.head.appendChild(link);
+  } else if (link.href !== faviconUrl) {
+    link.href = faviconUrl;
   }
   return link;
 }
@@ -46,15 +61,24 @@ const globalApi = {
   onboarding: initOnboarding || null,
   OnboardingModule: { initOnboarding },
   primaryCss,
-  loadPrimaryCss
+  faviconUrl,
+  loadPrimaryCss,
+  loadFavicon
 };
 
 Object.assign(globalThis, globalApi);
 globalThis.primaryCss = primaryCss;
 globalThis.PrimaryCSS = primaryCss;
+globalThis.faviconUrl = faviconUrl;
 globalThis.loadPrimaryCss = loadPrimaryCss;
+globalThis.loadFavicon = loadFavicon;
 globalThis.GlobalMessageModule = globalApi;
 globalThis.GlobalMessages = globalApi;
+
+if (typeof document !== 'undefined') {
+  loadPrimaryCss();
+  loadFavicon();
+}
 
 export {
   pushMessage,

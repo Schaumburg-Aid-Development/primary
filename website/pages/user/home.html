@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../styles/page/home.css">
+<title>Kinlo</title>
+</head>
+<body>
+<nav class="home-nav">
+<a href="home.html" class="active">Home</a>
+<a href="posts.html">Posts</a>
+<a href="skills.html">Skills</a>
+<a href="education.html">Education</a>
+<a href="personal/account/settings.html">Settings</a>
+</nav>
+
+<main class="home-wrap">
+<span class="home-eyebrow">Kinlo</span>
+<h1 class="home-greeting" id="greeting">What's up, User?</h1>
+<p class="home-line">Good to see you back. Here's where things stand today.</p>
+<p class="home-line">No new notifications right now, you're all caught up.</p>
+<p class="home-joke" id="joke">Why do programmers prefer dark mode? Because light attracts bugs.</p>
+</main>
+
+<script type="module" src="../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script type="module">
+function resolveUsername() {
+    let name = null;
+
+    if (typeof isAuthenticated === 'function' && isAuthenticated()) {
+        const session = (typeof getSession === 'function') ? getSession() : null;
+        if (session && session.username) name = session.username;
+        else if (session && session.email) name = session.email.split('@')[0];
+    }
+
+    if (!name && globalThis.currentUsername) name = globalThis.currentUsername;
+    if (!name || typeof name !== 'string' || !name.trim()) name = "User";
+
+    return name.trim();
+}
+
+function logSessionStatus() {
+    const hasSession = (typeof isAuthenticated === 'function') && isAuthenticated();
+
+    if (hasSession) {
+        const session = (typeof getSession === 'function') ? getSession() : null;
+        console.log('[Home]: Session found, user is signed in.', {
+            uid: session ? session.uid : null,
+            email: session ? session.email : null,
+            username: session ? session.username : null
+        });
+    } else {
+        console.log('[Home]: No session found, user is not signed in.');
+    }
+}
+
+logSessionStatus();
+const currentUsername = resolveUsername();
+
+const greetings = [
+    name => `What's up, ${name}?`,
+    name => `${name}, let's get to buisness.`,
+    name => `Welcome back, ${name}.`,
+    name => `Good to see you, ${name}.`,
+    name => `You made it back, ${name}.`,
+    name => `Hello again, ${name}. You look fabulous today.`
+];
+
+const jokes = [
+    "If life gives you lemons, make lemonade. Then sell it and get more money to make lemonade and start a lemonade empire.",
+    "Genuinely one of the most underrated things is helping people, someone should create a website for that... oh wait.",
+    "And today's sponsor is: no-one. i just wanted to say hi and that i hope you have a good day.",
+    "hi guys remember to report bad people and be nice to each other <3 bye.",
+    "on fridays you get mentioned here if you do something exceptional. so far, no one has been mentioned. but maybe you will be next week.",
+    "david has the same barber as thragg. not even kidding. most majestic person ive ever seen and i see a lot of things.",
+    "adhyayan forgot to make a joke, hes too busy making a website for you to enjoy. but he says hi.",
+    "lucas turner is the master of the universe and a professional tree lover. he also has a very nice haircut."
+];
+
+function pickRandom(list) {
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+document.getElementById("greeting").textContent = pickRandom(greetings)(currentUsername);
+document.getElementById("joke").textContent = pickRandom(jokes);
+</script>
+</body>
+</html>

@@ -17,8 +17,19 @@ function write(obj) {
 	sessionStorage.setItem(KEY, JSON.stringify(obj));
 }
 
+function wait(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function createSessionForCurrentUser() {
-	const uid = UID();
+	let uid = UID();
+
+	if (!uid) {
+		/* auth whatever it is soo annyoing*/
+		await wait(300);
+		uid = UID();
+	}
+
 	if (!uid) throw new Error('No signed in user');
 	const acc = await getAccountByUID(uid);
 	const session = { uid, email: acc ? acc.email : null, username: acc ? acc.username : null, startedAt: Date.now(), actions: [] };

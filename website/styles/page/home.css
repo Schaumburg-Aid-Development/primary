@@ -1,0 +1,83 @@
+.home-nav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 16px 24px;
+    margin: -56px -24px 0;
+}
+
+.home-nav a {
+    color: #0c0c0c;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.15s ease;
+}
+
+.home-nav a:hover {
+    opacity: 1;
+    text-decoration: none;
+}
+
+.home-nav a:focus-visible {
+    outline: 2px solid #0c0c0c;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.home-nav a.active {
+    opacity: 1;
+}
+
+.home-wrap {
+    max-width: 640px;
+    margin: 64px auto 0;
+}
+
+.home-eyebrow {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.home-greeting {
+    margin-bottom: 6px;
+}
+
+.home-line {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin: 10px 0 0;
+}
+
+.home-joke {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+@media (max-width: 560px) {
+    .home-nav {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .home-nav a {
+        font-size: 0.82rem;
+    }
+}

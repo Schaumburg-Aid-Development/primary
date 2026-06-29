@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../../../styles/page/login.css">
+<link rel="stylesheet" href="../../../../styles/components/globalmessage.css">
+<title>Sign In</title>
+</head>
+<body>
+<div class="login-wrap">
+<div class="login-card">
+<span class="login-eyebrow">Kinlo</span>
+<h1>Sign In</h1>
+<p>Welcome back. Enter your details to continue.</p>
+
+<div class="login-field">
+<label for="login-email">Email</label>
+<input id="login-email" type="email" placeholder="you@example.com" autocomplete="email">
+</div>
+
+<div class="login-field">
+<label for="login-password">Password</label>
+<input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password">
+</div>
+
+<button class="login-submit" id="login-submit" onclick="handleLogin()">Sign In</button>
+
+<div class="login-divider"><span>or</span></div>
+
+<button class="login-google" id="login-google" onclick="handleGoogleLogin()">
+<svg class="login-google-icon" viewBox="0 0 18 18" aria-hidden="true">
+<path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.12-.85 2.07-1.81 2.71v2.26h2.92c1.71-1.57 2.69-3.89 2.69-6.61z"/>
+<path fill="#34A853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.92-2.26c-.81.54-1.84.87-3.04.87-2.34 0-4.32-1.58-5.03-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"/>
+<path fill="#FBBC05" d="M3.97 10.72c-.18-.54-.28-1.12-.28-1.72s.1-1.18.28-1.72V4.95H.96A8.996 8.996 0 0 0 0 9c0 1.45.35 2.83.96 4.05l3.01-2.33z"/>
+<path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
+</svg>
+Continue with Google
+</button>
+
+<p class="login-footer">Don't have an account? <a href="../account/register.html">Create one</a></p>
+</div>
+</div>
+
+<script type="module" src="../../../../scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="../../../../scripts/backend/requests/global/global.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/account/account.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script>
+async function handleLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const submitBtn = document.getElementById('login-submit');
+
+    if (!email || !password) {
+        notify('Please enter both your email and password.', { type: 'error' });
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in…';
+
+    try {
+        await signIn(email, password);
+        await createSessionForCurrentUser();
+        notify('Signed in successfully.', { type: 'success' });
+        window.location.href = '../../home.html';
+    } catch (err) {
+        const code = err && err.code;
+        if (code === 'account/disabled') {
+            notify('This account has been disabled.', { type: 'error' });
+        } else if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+            notify('Incorrect email or password.', { type: 'error' });
+        } else if (code === 'auth/user-not-found') {
+            notify('No account found with that email.', { type: 'error' });
+        } else if (code === 'auth/too-many-requests') {
+            notify('Too many attempts. Please try again later.', { type: 'error' });
+        } else {
+            notify('Something went wrong while signing in.', { type: 'error' });
+        }
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+    }
+}
+
+document.getElementById('login-password').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleLogin();
+});
+
+async function handleGoogleLogin() {
+    const googleBtn = document.getElementById('login-google');
+    googleBtn.disabled = true;
+
+    try {
+        await signInWithGoogle();
+        await createSessionForCurrentUser();
+        notify('Signed in successfully.', { type: 'success' });
+        window.location.href = '../../home.html';
+    } catch (err) {
+        const code = err && err.code;
+        if (code === 'account/disabled') {
+            notify('This account has been disabled.', { type: 'error' });
+        } else if (code === 'auth/popup-closed-by-user') {
+            notify('Sign-in was cancelled.', { type: 'default' });
+        } else if (code === 'auth/account-exists-with-different-credential') {
+            notify('An account already exists with this email using a different sign-in method.', { type: 'error' });
+        } else {
+            notify('Something went wrong while signing in with Google.', { type: 'error' });
+        }
+    } finally {
+        googleBtn.disabled = false;
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../../../styles/page/home.css">
+<link rel="stylesheet" href="../../../../styles/page/settings.css">
+<link rel="stylesheet" href="../../../../styles/components/globalmessage.css">
+<title>Settings</title>
+</head>
+<body>
+<nav class="home-nav">
+<a href="../../home.html">Home</a>
+<a href="posts.html">Posts</a>
+<a href="skills.html">Skills</a>
+<a href="education.html">Education</a>
+<a href="settings.html" class="active">Settings</a>
+</nav>
+
+<main class="home-wrap">
+<span class="home-eyebrow">Kinlo</span>
+<h1>Settings</h1>
+<p class="home-line">Manage your account and session below.</p>
+
+<div class="settings-block">
+<span class="settings-label">Signed in as</span>
+<p class="settings-value" id="settings-identity">Not signed in</p>
+</div>
+
+<div class="settings-block">
+<span class="settings-label">Account</span>
+<button class="settings-danger" id="signout-btn" onclick="handleSignOut()">Sign Out</button>
+</div>
+</main>
+
+<script type="module" src="../../../../scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/account/account.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script type="module">
+function loadIdentity() {
+    const el = document.getElementById('settings-identity');
+    const signoutBtn = document.getElementById('signout-btn');
+
+    if (typeof isAuthenticated === 'function' && isAuthenticated()) {
+        const session = (typeof getSession === 'function') ? getSession() : null;
+        if (session) {
+            const label = session.username || (session.email ? session.email.split('@')[0] : 'Unknown');
+            el.textContent = session.email ? `${label} (${session.email})` : label;
+            return;
+        }
+    }
+
+    el.textContent = 'Not signed in';
+    if (signoutBtn) signoutBtn.disabled = true;
+}
+
+async function handleSignOut() {
+    const signoutBtn = document.getElementById('signout-btn');
+    signoutBtn.disabled = true;
+    signoutBtn.textContent = 'Signing out…';
+
+    try {
+        if (typeof logOut === 'function') {
+            await logOut();
+        }
+        if (typeof endSession === 'function') {
+            endSession();
+        }
+        notify('You have been signed out.', { type: 'default' });
+        window.location.href = 'login.html';
+    } catch (err) {
+        notify('Something went wrong while signing out.', { type: 'error' });
+        signoutBtn.disabled = false;
+        signoutBtn.textContent = 'Sign Out';
+    }
+}
+
+loadIdentity();
+// expose for inline onclick handlers which run in global scope
+if (typeof window !== 'undefined') window.handleSignOut = handleSignOut;
+</script>
+</body>
+</html>
