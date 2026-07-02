@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../../../styles/page/post.css">
+<link rel="stylesheet" href="../../../../styles/components/globalmessage.css">
+<title>Posts</title>
+</head>
+<body>
+<div class="post-wrap">
+<span class="post-eyebrow">Kinlo</span>
+<div class="post-header">
+<h1>Posts</h1>
+<a href="create.html">+ New Post</a>
+</div>
+
+<div class="post-filters">
+<button class="post-filter-btn filter-active" data-filter="all">All</button>
+<button class="post-filter-btn" data-filter="request">Requests</button>
+<button class="post-filter-btn" data-filter="offer">Offers</button>
+</div>
+
+<div class="post-feed" id="post-feed">
+<p class="post-empty">Loading posts…</p>
+</div>
+</div>
+
+<script type="module" src="../../../../scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script type="module" src="../../../../scripts/frontend/posts/post.module.js"></script>
+<script type="module">
+let currentFilter = 'all';
+let allPosts = [];
+
+function timeAgo(ts) {
+    const diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    return `${Math.floor(diff / 86400)}d ago`;
+}
+
+function renderPosts(posts) {
+    const feed = document.getElementById('post-feed');
+    if (!posts.length) {
+        feed.innerHTML = '<p class="post-empty">No posts yet. Be the first to post.</p>';
+        return;
+    }
+
+    feed.innerHTML = '';
+    posts.forEach(post => {
+        const card = document.createElement('a');
+        card.className = 'post-card';
+        card.href = `post.html?id=${post.id}`;
+        card.innerHTML = `
+            <div class="post-card-top">
+                <span class="post-type-tag post-type-${post.type}">${post.type}</span>
+                <span class="post-category-tag">${post.category}</span>
+            </div>
+            <p class="post-card-title">${post.title}</p>
+            <p class="post-card-desc">${post.description}</p>
+            <div class="post-card-footer">
+                <span>${post.username}</span>
+                <span>·</span>
+                <span>${timeAgo(post.createdAt)}</span>
+            </div>
+        `;
+        feed.appendChild(card);
+    });
+}
+
+function applyFilter(type) {
+    currentFilter = type;
+    const filtered = type === 'all' ? allPosts : allPosts.filter(p => p.type === type);
+    renderPosts(filtered);
+}
+
+async function loadFeed() {
+    try {
+        allPosts = await getPosts({ limit: 50 });
+        applyFilter(currentFilter);
+    } catch (err) {
+        document.getElementById('post-feed').innerHTML =
+            '<p class="post-empty">Failed to load posts.</p>';
+        console.error('[Post]: getPosts failed', err);
+        notify(`Could not load posts: ${err && err.message || 'unknown error'}`, { type: 'error' });
+    }
+}
+
+document.querySelectorAll('.post-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.post-filter-btn').forEach(b => b.classList.remove('filter-active'));
+        btn.classList.add('filter-active');
+        applyFilter(btn.dataset.filter);
+    });
+});
+
+loadFeed();
+</script>
+</body>
+</html>

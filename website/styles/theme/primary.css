@@ -1,44 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
-@view-transition {
-    navigation: auto;
-}
-
-::view-transition-group(root) {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-::view-transition-old(root) {
-    animation: stack-settle-back 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-::view-transition-new(root) {
-    animation: stack-lay-down 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes stack-settle-back {
-    from {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
-    to {
-        transform: scale(0.94) translateY(10px);
-        opacity: 0;
-    }
-}
-
-@keyframes stack-lay-down {
-    from {
-        transform: scale(0.96) translateY(28px);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
-}
-
 @font-face {
     font-family: 'Brasika';
     src: url('../fonts/brasika-display.otf') format('opentype');

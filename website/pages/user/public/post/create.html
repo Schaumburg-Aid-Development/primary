@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Stylers -->
+<link rel="stylesheet" href="../../../../styles/theme/primary.css">
+<link rel="stylesheet" href="../../../../styles/page/post.css">
+<link rel="stylesheet" href="../../../../styles/components/globalmessage.css">
+<title>New Post</title>
+</head>
+<body>
+<div class="post-wrap">
+<a class="post-back" href="post.html">← Back to posts</a>
+<span class="post-eyebrow">Kinlo</span>
+<h1>New Post</h1>
+
+<form class="create-form" id="create-form" onsubmit="return false">
+
+<div class="create-field">
+<span class="create-label">I want to…</span>
+<div class="type-selector">
+<button type="button" class="type-btn" data-post-type="request">Request Help</button>
+<button type="button" class="type-btn" data-post-type="offer">Offer Help</button>
+</div>
+</div>
+
+<div class="create-field">
+<span class="create-label">Title</span>
+<input id="post-title" type="text" placeholder="What do you need or offer?" maxlength="80">
+<span class="post-count" id="title-count">0 / 80</span>
+</div>
+
+<div class="create-field">
+<span class="create-label">Description</span>
+<textarea id="post-description" placeholder="Describe it in a bit more detail…" maxlength="500"></textarea>
+<span class="post-count" id="desc-count">0 / 500</span>
+</div>
+
+<div class="create-field">
+<span class="create-label">Category</span>
+<select id="post-category"></select>
+</div>
+
+<button class="create-submit" id="create-submit">Post</button>
+</form>
+</div>
+
+<script type="module" src="../../../../scripts/frontend/ui/globalmessage.module.js"></script>
+<script type="module" src="../../../../scripts/backend/security/prevention/session/session.module.js"></script>
+<script type="module" src="../../../../scripts/frontend/posts/post.module.js"></script>
+<script type="module" src="../../../../scripts/frontend/posts/handlers/text.js"></script>
+<script type="module" src="../../../../scripts/frontend/posts/handlers/customization.js"></script>
+<script type="module">
+import { initTextHandlers, getTextValues, validateText } from '../../../../scripts/frontend/posts/handlers/text.js';
+import { initCustomization, getCustomizationValues, validateCustomization } from '../../../../scripts/frontend/posts/handlers/customization.js';
+
+initTextHandlers();
+initCustomization();
+
+const submitBtn = document.getElementById('create-submit');
+
+submitBtn.addEventListener('click', async () => {
+    const { title, description } = getTextValues();
+    const { type, category } = getCustomizationValues();
+
+    const textError = validateText({ title, description });
+    if (textError) { notify(textError, { type: 'error' }); return; }
+
+    const customError = validateCustomization({ type });
+    if (customError) { notify(customError, { type: 'error' }); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting…';
+
+    try {
+        await createPost({ title, description, category, type });
+        notify('Post created!', { type: 'success' });
+        window.location.href = 'post.html';
+    } catch (err) {
+        const msg = err && err.message;
+        const map = {
+            'post/missing-title':       'Please enter a title.',
+            'post/missing-description': 'Please enter a description.',
+            'post/invalid-type':        'Please select Request Help or Offer Help.',
+            'post/not-signed-in':       'You must be signed in to post.',
+        };
+        notify(map[msg] || `Error: ${msg || 'Something went wrong. Check the console.'}`, { type: 'error' });
+        console.error('[Post]: createPost failed', err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post';
+    }
+});
+</script>
+</body>
+</html>
